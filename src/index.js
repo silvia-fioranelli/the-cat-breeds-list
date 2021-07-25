@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 
 const buildInitialState = () => ({
   breeds: {},
+  currentPage: 0,
+  pageSize: 10,
 });
 const store = createStore(reducer, buildInitialState(), applyMiddleware(thunk));
 
