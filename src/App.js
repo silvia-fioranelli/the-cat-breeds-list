@@ -1,31 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchBreeds as fetchBreedsAlias } from './actions';
 import List from './components/List';
-import { API_KEY, API_URL } from './constants';
+import {
+  getBreedsListData,
+  getBreedsListIsError,
+  getBreedsListIsLoading,
+} from './selectors';
 
-function App() {
-  const [{ isLoading, isError, data }, setData] = useState({
-    isLoading: false,
-    isError: false,
-    data: null,
-  });
+function App(props) {
+  const { data, isError, isLoading, fetchBreeds } = props;
 
   useEffect(() => {
-    setData({ isLoading: true, isError: false });
-    fetch(API_URL, {
-      headers: {
-        'x-api-key': API_KEY,
-      },
-      method: 'GET',
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error('Error');
-        }
-      })
-      .then((res) => setData({ data: res, isLoading: false, isError: false }))
-      .catch(() => setData({ isLoading: false, isError: true }));
+    fetchBreeds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderList = () => {
@@ -50,4 +38,16 @@ function App() {
   );
 }
 
-export default App;
+const mapState = (state) => {
+  return {
+    data: getBreedsListData(state),
+    isLoading: getBreedsListIsLoading(state),
+    isError: getBreedsListIsError(state),
+  };
+};
+
+const mapDispatch = {
+  fetchBreeds: fetchBreedsAlias,
+};
+
+export default connect(mapState, mapDispatch)(App);
