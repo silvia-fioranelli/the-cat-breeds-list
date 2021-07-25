@@ -8,7 +8,7 @@ export const fetchBreeds = () => (dispatch) => {
     type: BREEDS_LOADING,
   });
 
-  fetch(API_URL, {
+  return fetch(API_URL, {
     headers: {
       accept: 'application/json',
       'x-api-key': API_KEY,
@@ -22,16 +22,15 @@ export const fetchBreeds = () => (dispatch) => {
         throw new Error('fetch not ok');
       }
     })
-    .then((res) => {
+    .then((json) => {
       dispatch({
         type: BREEDS_SUCCESS,
-        data: res,
+        data: json,
       });
     })
-    .catch((error) => {
+    .catch(() => {
       dispatch({
         type: BREEDS_ERROR,
-        error,
       });
     });
 };

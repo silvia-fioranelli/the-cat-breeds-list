@@ -8,7 +8,7 @@ import {
   getBreedsListIsLoading,
 } from './selectors';
 
-function App(props) {
+export function App(props) {
   const { data, isError, isLoading, fetchBreeds } = props;
 
   useEffect(() => {
@@ -17,14 +17,14 @@ function App(props) {
   }, []);
 
   const renderList = () => {
-    if (isError) {
-      return <h5 className='text-center'>Error, please retry!</h5>;
-    }
-
     if (isLoading) {
       return (
         <h5 className='text-center'>Cats are on the way, please wait...</h5>
       );
+    }
+
+    if (isError) {
+      return <h5 className='text-center'>Error, please retry!</h5>;
     }
 
     return <List items={data} />;
