@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+import List from './components/List';
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('https://api.thecatapi.com/v1/breeds')
+      .then((res) => res.json())
+      .then((res) => setData(res))
+      .catch((error) => console.log(error));
+  }, []);
+
+  if (!data) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <h1 className='text-center'>The cat breeds list</h1>
+      <List items={data} />
     </div>
   );
 }
