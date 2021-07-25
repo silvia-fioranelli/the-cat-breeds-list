@@ -30,7 +30,7 @@ function Item(props) {
           Boolean(hasShortLegs) ? EMOJI_CHECK_MARK : EMOJI_CROSS_MARK
         }`}</p>
         <p>{temperament}</p>
-        <p class='font-italic'>{`"${description}"`}</p>
+        {description && <p className='font-italic'>{`"${description}"`}</p>}
       </div>
     </div>
   );
